@@ -1,13 +1,13 @@
-﻿using QuickSampleApi.Models;
+﻿using WorldManagementApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuickSampleApi.Services
+namespace WorldManagementApi.Services
 {
-    public interface ISampleService
+    public interface IWorldService
     {
-        public ICollection<Sample> GetAll();
+        public ICollection<World> GetAll();
     }
 }

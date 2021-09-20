@@ -5,24 +5,24 @@ using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
-namespace QuickSampleApi.Models
+namespace WorldManagementApi.Models
 {
-    public partial class SampleContext : DbContext
+    public partial class WorldContext : DbContext
     {
         private readonly IConfiguration _configuration;
 
-        public SampleContext(IConfiguration configuration)
+        public WorldContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public SampleContext(DbContextOptions<SampleContext> options, IConfiguration configuration)
+        public WorldContext(DbContextOptions<WorldContext> options, IConfiguration configuration)
             : base(options)
         {
             _configuration = configuration;
         }
 
-        public virtual DbSet<Sample> Samples { get; set; }
+        public virtual DbSet<World> Worlds { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,7 +30,7 @@ namespace QuickSampleApi.Models
             {
                 optionsBuilder.UseSqlServer(_configuration.GetSection("SqlConnection").Get<string>());
                 // Use when running outside of docker
-                // optionsBuilder.UseSqlServer("Server=localhost,5434;Database=Sample;User ID=sa;Password=Yukon900;");
+                // optionsBuilder.UseSqlServer("Server=localhost,5434;Database=World;User ID=sa;Password=Yukon900;");
             }
         }
 
@@ -38,11 +38,11 @@ namespace QuickSampleApi.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<Sample>(entity =>
+            modelBuilder.Entity<World>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Sample");
+                entity.ToTable("World");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
             });

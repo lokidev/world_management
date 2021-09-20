@@ -1,26 +1,26 @@
-using QuickSampleApi.Models;
+using WorldManagementApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QuickSampleApi.Repos
+namespace WorldManagementApi.Repos
 {
-    public class SampleRepo
+    public class WorldRepo
     {
-        private SampleContext db;
+        private WorldContext db;
 
-        public SampleRepo(SampleContext db)
+        public WorldRepo(WorldContext db)
         {
             this.db = db;
         }
 
-        public List<Sample> GetProduts()
+        public List<World> GetProduts()
         {
             if (db != null)
             {
-                List<Sample> employees = new List<Sample>();
+                List<World> employees = new List<World>();
 
-                var result = db.Samples.OrderByDescending(x => x.SampleName).ToList();
+                var result = db.Worlds.OrderByDescending(x => x.WorldName).ToList();
 
                 return result;
             }

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace QuickSampleApi.Models
+namespace WorldManagementApi.Models
 {
-    public partial class Sample
+    public partial class World
     {
         public int? Id { get; set; }
-        public string SampleName { get; set; }
+        public string WorldName { get; set; }
     }
 }

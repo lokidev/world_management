@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QuickSampleApi.Services;
+using WorldManagementApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace QuickSampleApi.Controllers
+namespace WorldManagementApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SampleController : ControllerBase
+    public class WorldController : ControllerBase
     {
-        private ISampleService _sampleService;
-        public SampleController(ISampleService sampleService)
+        private IWorldService _worldService;
+        public WorldController(IWorldService worldService)
         {
-            _sampleService = sampleService;
+            _worldService = worldService;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_sampleService.GetAll());
+            return Ok(_worldService.GetAll());
         }
     }
 }

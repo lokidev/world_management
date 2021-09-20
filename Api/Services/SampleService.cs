@@ -1,27 +1,27 @@
-﻿using QuickSampleApi.Models;
+﻿using WorldManagementApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QuickSampleApi.Repos;
+using WorldManagementApi.Repos;
 using Microsoft.Extensions.Configuration;
 
-namespace QuickSampleApi.Services
+namespace WorldManagementApi.Services
 {
-    public class SampleService : ISampleService
+    public class WorldService : IWorldService
     {
         private readonly IConfiguration _configuration;
 
-        public SampleService(IConfiguration configuration)
+        public WorldService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public ICollection<Sample> GetAll()
+        public ICollection<World> GetAll()
         {
-            using (var db = new SampleContext(_configuration))
+            using (var db = new WorldContext(_configuration))
             {
-                var t = new SampleRepo(db);
+                var t = new WorldRepo(db);
                 return t.GetProduts();
             }
         }

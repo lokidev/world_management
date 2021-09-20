@@ -1,6 +1,6 @@
-CREATE DATABASE Sample;
+CREATE DATABASE World;
 GO 
-USE Sample;
+USE World;
 GO 
-CREATE TABLE Sample (ID int, SampleName varchar(max));
+CREATE TABLE World (ID int, WorldName varchar(max));
 GO
