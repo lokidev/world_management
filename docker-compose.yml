@@ -24,5 +24,6 @@ services:
 
 networks:
   default:
+    # use the default network of the karma container
     external: true
-    name: karma-network
+    name: karma_default
