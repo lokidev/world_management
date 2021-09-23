@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorldManagementApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using WorldManagementApi.Services.Interfaces;
 
 namespace WorldManagementApi.Controllers
 {

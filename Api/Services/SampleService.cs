@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorldManagementApi.Repos;
 using Microsoft.Extensions.Configuration;
+using WorldManagementApi.Services.Interfaces;
 
 namespace WorldManagementApi.Services
 {

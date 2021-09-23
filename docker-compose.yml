@@ -1,5 +1,6 @@
 services:
   world-management-api:
+    container_name: world-management-api
     image: world-management-api
     build:
       context: ./Api
@@ -7,9 +8,10 @@ services:
     ports:
       - "5053:80"
     depends_on:
-      - mssql-graph-db
+      - world-management-db
 
-  mssql-graph-db:
+  world-management-db:
+    container_name: world-management-db
     image: mssql-graph-db
     build:
       context: ./Database
@@ -19,3 +21,8 @@ services:
     environment:
       - SA_PASSWORD=Yukon900
       - ACCEPT_EULA=Y
+
+networks:
+  default:
+    external: true
+    name: karma-network

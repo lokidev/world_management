@@ -14,6 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WorldManagementApi.Messaging.Configurations;
+using WorldManagementApi.Messaging.Interfaces;
+using WorldManagementApi.Messaging.Services;
+using WorldManagementApi.Services.Interfaces;
 
 namespace WorldManagementApi
 {
@@ -42,9 +46,13 @@ namespace WorldManagementApi
                                     });
             });
             services.AddControllers();
+
+            // Add consumer service to run in the background
+            services.Configure<RabbitMQSettings>(Configuration.GetSection("RabbitMQSettings"));
+            services.AddSingleton<IRabbitMqService, RabbitMqService>();
+            services.AddSingleton<IWorldListenerService, KarmaListenerService>();
             services.AddScoped<IWorldService, WorldService>();
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -69,6 +77,8 @@ namespace WorldManagementApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            InstantiateRmqServices(app);
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -102,6 +112,17 @@ namespace WorldManagementApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        /// <summary>
+        /// This forces any RabbitMQ services to instantiate and begin 
+        /// their services immediately
+        /// </summary>
+        /// <param name="app"></param>
+        private void InstantiateRmqServices(IApplicationBuilder app)
+        {
+            app.ApplicationServices.GetService(typeof(IRabbitMqService));
+            app.ApplicationServices.GetService(typeof(IWorldListenerService));
         }
     }
 }
