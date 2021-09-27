@@ -8,6 +8,8 @@ namespace WorldManagementApi.Services.Interfaces
 {
     public interface IWorldService
     {
-        public ICollection<World> GetAll();
+        ICollection<World> GetAll();
+        Task StartClock();
+        Task StopClock();
     }
 }

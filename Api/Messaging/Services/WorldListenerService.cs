@@ -17,6 +17,8 @@ using WorldManagementApi.Messaging.Interfaces;
 using WorldManagementApi.Models;
 using Microsoft.Extensions.Configuration;
 using WorldManagementApi.Services;
+using WorldManagementApi.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace WorldManagementApi.Messaging.Services
 {
@@ -29,6 +31,7 @@ namespace WorldManagementApi.Messaging.Services
         private RabbitMQSettings settings;
         private ILogger<KarmaListenerService> logger;
         private IServiceScopeFactory serviceScopeFactory;
+        private IWorldService mWorldService;
         private IRabbitMqService mRabbitMqService;
         private readonly IConfiguration _configuration;
 
@@ -55,10 +58,12 @@ namespace WorldManagementApi.Messaging.Services
           ILogger<KarmaListenerService> logger,
           IServiceScopeFactory serviceScopeFactory,
           IRabbitMqService rabbitMqService,
+          IWorldService worldService,
               IConfiguration configuration)
         {
             this.logger = logger;
             this.serviceScopeFactory = serviceScopeFactory;
+            this.mWorldService = worldService;
             this.mRabbitMqService = rabbitMqService;
             this._configuration = configuration;
             settings = config.Value;
@@ -204,7 +209,17 @@ namespace WorldManagementApi.Messaging.Services
                 var updatedPerson = peopleService.Update(person);
             }
 
+            if (topic == "karma_exchange_main.clock.start")
+            {
+                Console.WriteLine("Message Received " + topic);
+                _ = Task.Factory.StartNew(() => mWorldService.StartClock());
+            }
 
+            if (topic == "karma_exchange_main.clock.stop")
+            {
+                Console.WriteLine("Message Received " + topic);
+                _ = Task.Factory.StartNew(() => mWorldService.StopClock());
+            }
         }
 
         /// <summary>

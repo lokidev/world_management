@@ -51,7 +51,7 @@ namespace WorldManagementApi
             services.Configure<RabbitMQSettings>(Configuration.GetSection("RabbitMQSettings"));
             services.AddSingleton<IRabbitMqService, RabbitMqService>();
             services.AddSingleton<IWorldListenerService, KarmaListenerService>();
-            services.AddScoped<IWorldService, WorldService>();
+            services.AddSingleton<IWorldService, WorldService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
