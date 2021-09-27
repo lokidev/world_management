@@ -188,9 +188,9 @@ namespace WorldManagementApi.Messaging.Services
 
         private async void ProcessInboundMessage(string topic, string payload)
         {
-            if (topic == "people_exchange_main.person.created")
+            if (topic == "people_exchange_main.person.seeded")
             {
-                Console.WriteLine("Message Recieved " + topic);
+                Console.WriteLine("Message Received " + topic);
                 var person = JsonConvert.DeserializeObject<Person>(payload);
                 var peopleService = new PeopleService(_configuration, mRabbitMqService);
                 var addedPerson = peopleService.Add(person);
@@ -198,7 +198,7 @@ namespace WorldManagementApi.Messaging.Services
 
             if (topic == "people_exchange_main.person.updated")
             {
-                Console.WriteLine("Message Recieved " + topic);
+                Console.WriteLine("Message Received " + topic);
                 var person = JsonConvert.DeserializeObject<Person>(payload);
                 var peopleService = new PeopleService(_configuration, mRabbitMqService);
                 var updatedPerson = peopleService.Update(person);
