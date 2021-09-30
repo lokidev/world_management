@@ -17,6 +17,7 @@ namespace WorldManagementApi.Services
         private IRabbitMqService mRabbitMqService;
         private bool clockRunning;
         private DateTime curDate;
+        private WorldContext mWorldContext;
 
         public WorldService(IConfiguration configuration, IRabbitMqService rabbitMqService)
         {
@@ -24,24 +25,24 @@ namespace WorldManagementApi.Services
             mRabbitMqService = rabbitMqService;
             clockRunning = false;
             curDate = DateTime.Now;
+            mWorldContext = new WorldContext(_configuration);
         }
 
         public ICollection<World> GetAll()
         {
-            using (var db = new WorldContext(_configuration))
-            {
-                var t = new WorldRepo(db);
+            
+                var t = new WorldRepo(mWorldContext);
                 return t.GetProduts();
-            }
+            
         }
 
         public async Task ChangeDateAndWait() 
         {
             if (clockRunning)
             {
-                curDate = curDate.AddDays(1);
+                curDate = curDate.AddDays(30);
                 mRabbitMqService.sendMessage(curDate, "world_exchange_main.time.newDay", true);
-                Thread.Sleep(5000);
+                Thread.Sleep(3000);
                 _ = Task.Factory.StartNew(() => ChangeDateAndWait());
             }
         }

@@ -15,33 +15,29 @@ namespace WorldManagementApi.Services
     {
         private IRabbitMqService mRabbitMqService;
         private readonly IConfiguration _configuration;
+        private WorldContext mWorldContext;
 
         public PeopleService(IConfiguration configuration, IRabbitMqService rabbitMqService)
         {
             _configuration = configuration;
             mRabbitMqService = rabbitMqService;
+            mWorldContext = new WorldContext(_configuration);
         }
 
         public Person Add(Person person)
         {
-            using (var db = new WorldContext(_configuration))
-            {
-                var p = new PeopleRepo(db);
-                var addedPerson = p.AddPerson(person);
-                mRabbitMqService.sendMessage(person, "people_exchange_main.person.created", true);
-                return addedPerson;
-            }
+            var p = new PeopleRepo(mWorldContext);
+            var addedPerson = p.AddPerson(person);
+            mRabbitMqService.sendMessage(person, "world_exchange_main.person.created", true);
+            return addedPerson;
         }
 
         public Person Update(Person person)
         {
-            using (var db = new WorldContext(_configuration))
-            {
-                var p = new PeopleRepo(db);
-                var updatedPerson = p.UpdatePerson(person);
-                mRabbitMqService.sendMessage(person, "people_exchange_main.person.updated", true);
-                return updatedPerson;
-            }
+            var p = new PeopleRepo(mWorldContext);
+            var updatedPerson = p.UpdatePerson(person);
+            mRabbitMqService.sendMessage(person, "world_exchange_main.person.updated", true);
+            return updatedPerson;
         }
     }
 }

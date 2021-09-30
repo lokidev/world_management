@@ -201,6 +201,14 @@ namespace WorldManagementApi.Messaging.Services
                 var addedPerson = peopleService.Add(person);
             }
 
+            if (topic == "people_exchange_main.person.created")
+            {
+                Console.WriteLine("Message Received " + topic);
+                var person = JsonConvert.DeserializeObject<Person>(payload);
+                var peopleService = new PeopleService(_configuration, mRabbitMqService);
+                var addedPerson = peopleService.Add(person);
+            }
+
             if (topic == "people_exchange_main.person.updated")
             {
                 Console.WriteLine("Message Received " + topic);

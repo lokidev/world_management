@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  world-management-api:
+    container_name: world-management-api
+    image: world-management-api
+    build:
+      context: ../Api
+      dockerfile: Dockerfile
+    ports:
+      - "5053:80"
+
+networks:
+  default:
+    # use the default network of the karma container
+    external: true
+    name: karma_docker_api_default

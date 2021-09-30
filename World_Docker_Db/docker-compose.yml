@@ -1,20 +1,11 @@
-services:
-  world-management-api:
-    container_name: world-management-api
-    image: world-management-api
-    build:
-      context: ./Api
-      dockerfile: Dockerfile
-    ports:
-      - "5053:80"
-    depends_on:
-      - world-management-db
+version: "3.9"
 
+services:
   world-management-db:
     container_name: world-management-db
     image: mssql-graph-db
     build:
-      context: ./Database
+      context: ../Database
       dockerfile: Dockerfile
     ports:
       - 5433:1433
@@ -26,4 +17,4 @@ networks:
   default:
     # use the default network of the karma container
     external: true
-    name: karma_default
+    name: karma_docker_api_default
