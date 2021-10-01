@@ -30,19 +30,17 @@ namespace WorldManagementApi.Services
 
         public ICollection<World> GetAll()
         {
-            
-                var t = new WorldRepo(mWorldContext);
-                return t.GetProduts();
-            
+            var t = new WorldRepo(mWorldContext);
+            return t.GetProduts();
         }
 
-        public async Task ChangeDateAndWait() 
+        public async Task ChangeDateAndWait()
         {
             if (clockRunning)
             {
-                curDate = curDate.AddDays(30);
+                curDate = curDate.AddYears(1);
                 mRabbitMqService.sendMessage(curDate, "world_exchange_main.time.newDay", true);
-                Thread.Sleep(3000);
+                Thread.Sleep(6000);
                 _ = Task.Factory.StartNew(() => ChangeDateAndWait());
             }
         }

@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[People](
 	[LastName] [varchar](255) NULL,
 	[Gender] [bit] NULL,
 	[Luck] [float] NULL,
+	[Education] [float] NULL,
 	[Health] [float] NULL,
 	[Hunger] [float] NULL,
 	[Security] [float] NULL,

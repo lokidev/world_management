@@ -12,6 +12,7 @@ namespace WorldManagementApi.Models
         public string LastName { get; set; }
         public bool? Gender { get; set; }
         public double? Luck { get; set; }
+        public double? Education { get; set; }
         public double? Health { get; set; }
         public double? Hunger { get; set; }
         public double? Security { get; set; }
