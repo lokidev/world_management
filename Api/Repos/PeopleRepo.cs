@@ -16,6 +16,28 @@ namespace WorldManagementApi.Repos
             this.db = db;
         }
 
+        public Person GetPerson(int id)
+        {
+            if (db != null)
+            {
+                var person = db.People.Find(id);
+                
+                return person;
+            }
+            return null;
+        }
+
+        public List<Person> GetPeople()
+        {
+            if (db != null)
+            {
+                var people = db.People.ToList();
+                
+                return people;
+            }
+            return null;
+        }
+
         public Person AddPerson(Person person){
             if (db != null)
             {

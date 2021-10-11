@@ -28,13 +28,24 @@ namespace WorldManagementApi.Services
             mWorldContext = new WorldContext(_configuration);
         }
 
-        public ICollection<World> GetAll()
+        public ICollection<Person> GetPeople()
         {
-            var t = new WorldRepo(mWorldContext);
-            return t.GetProduts();
+            var repo = new PeopleRepo(mWorldContext);
+            return repo.GetPeople();
         }
 
-        public async Task ChangeDateAndWait()
+        public int GetPeopleCount()
+        {
+            var repo = new PeopleRepo(mWorldContext);
+            return repo.GetPeople().Count();
+        }
+
+        public DateTime GetCurrentDate()
+        {
+            return curDate;
+        }
+
+        public Task ChangeDateAndWait()
         {
             if (clockRunning)
             {
@@ -43,17 +54,23 @@ namespace WorldManagementApi.Services
                 Thread.Sleep(6000);
                 _ = Task.Factory.StartNew(() => ChangeDateAndWait());
             }
+
+            return Task.CompletedTask;
         }
 
-        public async Task StartClock()
+        public Task StartClock()
         {
             clockRunning = true;
             _ = Task.Factory.StartNew(() => ChangeDateAndWait());
+
+            return Task.CompletedTask;
         }
 
-        public async Task StopClock()
+        public Task StopClock()
         {
             clockRunning = false;
+
+            return Task.CompletedTask;
         }
     }
 }

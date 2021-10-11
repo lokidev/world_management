@@ -53,6 +53,9 @@ namespace WorldManagementApi.Messaging.Services
         /// <param name="serviceScopeFactory">
         /// Service Scope for DI
         /// </param>
+        /// <param name="rabbitMqService"></param>
+        /// <param name="worldService"></param>
+        /// <param name="configuration"></param>
         public KarmaListenerService(
           IOptions<RabbitMQSettings> config,
           ILogger<KarmaListenerService> logger,
@@ -191,7 +194,7 @@ namespace WorldManagementApi.Messaging.Services
             }
         }
 
-        private async void ProcessInboundMessage(string topic, string payload)
+        private Task ProcessInboundMessage(string topic, string payload)
         {
             if (topic == "people_exchange_main.person.seeded")
             {
@@ -228,6 +231,8 @@ namespace WorldManagementApi.Messaging.Services
                 Console.WriteLine("Message Received " + topic);
                 _ = Task.Factory.StartNew(() => mWorldService.StopClock());
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>

@@ -8,7 +8,9 @@ namespace WorldManagementApi.Services.Interfaces
 {
     public interface IWorldService
     {
-        ICollection<World> GetAll();
+        ICollection<Person> GetPeople();
+        int GetPeopleCount();
+        DateTime GetCurrentDate();
         Task StartClock();
         Task StopClock();
     }
