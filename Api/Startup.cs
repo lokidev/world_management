@@ -18,6 +18,9 @@ using WorldManagementApi.Messaging.Configurations;
 using WorldManagementApi.Messaging.Interfaces;
 using WorldManagementApi.Messaging.Services;
 using WorldManagementApi.Services.Interfaces;
+using WorldManagement.Configurations;
+using Microsoft.EntityFrameworkCore;
+using WorldManagementApi.Models;
 
 namespace WorldManagementApi
 {
@@ -34,18 +37,28 @@ namespace WorldManagementApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+            var connectionString = GetDbConnectionString();
+
+            services.AddDbContext<WorldContext>(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                                    builder =>
-                                    {
-                                        builder
-                                        .AllowAnyHeader()
-                                        .AllowAnyMethod()
-                                        .AllowAnyOrigin();
-                                    });
+                options.UseSqlServer(connectionString,
+                sqlServerOptionsAction: sqlOptions =>
+                {
+                    //Configuring Connection Resiliency:
+                    sqlOptions.
+                        EnableRetryOnFailure(maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
+                });
             });
+
             services.AddControllers();
+
+            services.ConfigureRepositories()
+                    .ConfigureBusiness()
+                    .ConfigureServices()
+                    .ConfigureUtilities()
+                    .AddCorsConfiguration();
 
             // Add consumer service to run in the background
             services.Configure<RabbitMQSettings>(Configuration.GetSection("RabbitMQSettings"));
@@ -78,7 +91,7 @@ namespace WorldManagementApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             InstantiateRmqServices(app);
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -114,8 +127,15 @@ namespace WorldManagementApi
             });
         }
 
+        private string GetDbConnectionString()
+        {
+            string connectionString = Configuration.GetValue<string>("SqlConnection");
+
+            return connectionString;
+        }
+
         /// <summary>
-        /// This forces any RabbitMQ services to instantiate and begin 
+        /// This forces any RabbitMQ services to instantiate and begin
         /// their services immediately
         /// </summary>
         /// <param name="app"></param>

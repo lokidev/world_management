@@ -16,4 +16,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repos\Interfaces\" />
+  </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace WorldManagementApi.Repos
 {
-    public class PeopleRepo
+    public class PeopleRepo: IPeopleRepo
     {
         private WorldContext db;
 
@@ -21,7 +21,7 @@ namespace WorldManagementApi.Repos
             if (db != null)
             {
                 var person = db.People.Find(id);
-                
+
                 return person;
             }
             return null;
@@ -32,7 +32,7 @@ namespace WorldManagementApi.Repos
             if (db != null)
             {
                 var people = db.People.ToList();
-                
+
                 return people;
             }
             return null;
@@ -43,7 +43,7 @@ namespace WorldManagementApi.Repos
             {
                 var addedPerson = db.People.Add(person);
                     db.SaveChanges();
-                
+
                 return addedPerson.Entity;
             }
             return null;
@@ -55,7 +55,7 @@ namespace WorldManagementApi.Repos
             {
                 var updatedPerson = db.People.Update(person);
                 db.SaveChanges();
-                
+
                 return updatedPerson.Entity;
             }
             return null;

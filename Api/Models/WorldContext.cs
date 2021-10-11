@@ -41,29 +41,26 @@ namespace WorldManagementApi.Models
 
             modelBuilder.Entity<World>(entity =>
             {
-                entity.HasNoKey();
-
-                entity.ToTable("World");
-
                 entity.Property(e => e.Id).HasColumnName("ID");
             });
 
             modelBuilder.Entity<Person>(entity =>
             {
-                entity.ToTable("People");
+                entity.Property(e => e.BirthDate).HasColumnType("datetime");
+
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.DeathDate).HasColumnType("datetime");
 
                 entity.Property(e => e.DestructionDate).HasColumnType("datetime");
 
                 entity.Property(e => e.FirstName)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
                 entity.Property(e => e.IdentificationTags).IsUnicode(false);
 
                 entity.Property(e => e.LastName)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
             });
