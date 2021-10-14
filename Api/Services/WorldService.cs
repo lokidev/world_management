@@ -58,19 +58,19 @@ namespace WorldManagementApi.Services
             return Task.CompletedTask;
         }
 
-        public Task StartClock()
+        public DateTime StartClock()
         {
             clockRunning = true;
             _ = Task.Factory.StartNew(() => ChangeDateAndWait());
 
-            return Task.CompletedTask;
+            return GetCurrentDate();
         }
 
-        public Task StopClock()
+        public DateTime StopClock()
         {
             clockRunning = false;
 
-            return Task.CompletedTask;
+            return GetCurrentDate();
         }
     }
 }

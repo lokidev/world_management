@@ -11,7 +11,7 @@ namespace WorldManagementApi.Services.Interfaces
         ICollection<Person> GetPeople();
         int GetPeopleCount();
         DateTime GetCurrentDate();
-        Task StartClock();
-        Task StopClock();
+        DateTime StartClock();
+        DateTime StopClock();
     }
 }
