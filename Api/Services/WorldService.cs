@@ -51,7 +51,7 @@ namespace WorldManagementApi.Services
             {
                 curDate = curDate.AddYears(1);
                 mRabbitMqService.sendMessage(curDate, "world_exchange_main.time.newDay", true);
-                Thread.Sleep(6000);
+                Thread.Sleep(12000);
                 _ = Task.Factory.StartNew(() => ChangeDateAndWait());
             }
 
